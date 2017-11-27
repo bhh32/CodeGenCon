@@ -1,5 +1,5 @@
 #include <iostream>
-#include <assert.h>
+#include <cstdlib>
 
 using std::cout;
 using std::endl;
@@ -92,25 +92,26 @@ char Max(char a, char b)
 template<bool T>
 bool AssertedBool(bool arg)
 {
-	assert(arg == T);
+	if(arg == T)
+		return true;
 
-	return true;
+	abort();
 }
 
 template<typename T>
 bool AssertedEqual(T x, T y)
 {
-	assert(x == y);
-
-	return true;
+	if(x == y)
+		return true;
+	abort();
 }
 
 template<typename T>
 bool AssertedNotEqual(T x, T y)
 {
-	assert(x != y);
-	
-	return true;
+	if(x != y)	
+		return true;
+	abort();
 }
 
 int main()
