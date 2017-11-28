@@ -13,7 +13,7 @@ IntVector::IntVector()
 
 IntVector::~IntVector()
 {
-	//delete[] data; // destructor is throwing error at the end of the program because of this delete operator
+	delete[] data; // destructor is throwing error at the end of the program because of this delete operator
 }
 
 int &IntVector::At(size_t idx)
@@ -178,12 +178,13 @@ void IntVector::Reserve(int elements)
 
 void IntVector::Compact()
 {
-	int* newData = new int[size - 1];
+	int* newData = new int[size];
 	for (int i = 0; i < size; ++i)
 	{
 		newData[i] = data[i];
 	}
 	capacity = size;
+	delete[] data;
 	data = newData;
 }
 

@@ -71,9 +71,6 @@ int main()
 	AssertedBool<true>(vector.Capacity() >= 10);
 	vector.Compact();
 	AssertedEqual(vector.Capacity(), vector.Size());
-	vector.PrintElements();
 	
-	system("pause");
-	vector.~IntVector();
 	return 0;
 }
