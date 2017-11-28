@@ -1,5 +1,6 @@
 #include "IntVector.h"
 #include <cassert>
+#include <cstdlib>
 #include <cstring>
 
 IntVector::IntVector()
@@ -32,7 +33,7 @@ int &IntVector::Append(int val)
 	data[size] = val;
 	++size;
 
-	return val;
+	return data[size - 1];
 }
 
 bool IntVector::Grow(size_t minSize)
@@ -63,10 +64,17 @@ bool IntVector::Grow(size_t minSize)
 	return true;
 }
 
+const float IntVector::operator[](const int index) const
+{
+	if (index >= size)
+		abort();
+
+	return data[index];
+}
+
 int* IntVector::Data() const
 {
-	int* temp = data;
-	return temp;
+	return data;
 }
 
 size_t IntVector::Capacity() const
@@ -92,4 +100,86 @@ int IntVector::Front() const
 int IntVector::Back() const
 {
 	return data[size - 1];
+}
+
+void IntVector::Clear()
+{
+	int* newData = new int[capacity];
+	delete[] data;
+	data = newData;
+}
+
+void IntVector::Erase(int idx)
+{
+	int* temp = data;
+
+	for (int i = 0; i < size; ++i)
+	{
+		if (i < idx)
+			data[i] = temp[i];
+		else
+			data[i] = temp[i + 1];
+	}
+
+	size--;
+}
+
+int IntVector::Count(int value)
+{
+	int counter = 0;
+
+	for (int i = 0; i < size; ++i)
+	{
+		if (data[i] == value)
+			counter++;
+	}
+
+	return counter;
+}
+
+void IntVector::Insert(int value, int idx)
+{
+	int* temp = data;
+
+	if (idx < 0)
+		abort();
+	else if (idx > size)
+		Grow(size + 1);
+	else
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			if (i < idx)
+				data[i] = temp[i];
+			else if (i == idx)
+				data[i] = value;
+			else
+				data[i] = temp[i + 1];
+		}
+	}
+}
+
+void IntVector::Reserve(int elements)
+{
+	if (elements < size)
+	{
+		for (int i = elements + 1; i < size; ++i)
+		{
+			Erase(i);
+		}
+
+		capacity = sizeof(int) * size;
+	}
+	else if (elements >= size)
+	{
+		Grow(elements + 1);
+	}
+}
+
+void IntVector::Compact()
+{
+	int* temp = data;
+	int* newData = new int[size - 1];
+	delete[] data;
+	memcpy(data, newData, sizeof(int) * (size - 1));
 }

@@ -16,6 +16,8 @@ private:
 	bool Grow(size_t minSize);
 
 public:
+	
+	const float operator[](const int index) const;
 
 	IntVector();
 	~IntVector();
@@ -43,4 +45,22 @@ public:
 
 	// Returns the last element in the vector
 	int Back() const;
+
+	// Clears the vector array
+	void Clear();
+
+	// Deletes the element at the specified index
+	void Erase(int idx);
+
+	// Returns the total number of occurrences of a given element in the vector
+	int Count(int value);
+
+	// Inserts an element at a given index
+	void Insert(int value, int idx);
+
+	// The vector resizes the underlying array to be able to store a given number of elements
+	void Reserve(int elements);
+
+	// The vector resizes the underlying array to fit EXACTLY the number of elements that it currently contains
+	void Compact();
 };

@@ -4,69 +4,51 @@
 using std::cout;
 using std::endl;
 
+template<typename T>
+bool AssertedEqual(T x, T y)
+{
+	if (x == y)
+		return true;
+	abort();
+}
+
+template<bool T>
+bool AssertedBool(bool arg)
+{
+	if (arg == T)
+		return true;
+
+	abort();
+}
+
 int main()
 {
+	// Closed Activities
+
 	IntVector vector;
 
-	// Ensure the the vector is empty
-	if (vector.Empty())
-		cout << "The Array Is Empty!" << endl;
+	AssertedBool<true>(vector.Empty());
 
-	cout << endl;
+	AssertedEqual<size_t>(vector.Capacity(), 2);
 
-	// Add elements to the vector
-	vector.Append(3);
+	vector.Append(1);
 	vector.Append(5);
-	
-	// Get a reference to the vector
-	int* vectorTemp = vector.Data();
 
-	// Print the size, capacity, and front element of the vector
-	cout << "Size: " << vector.Size() << endl;
-	cout << "Capacity: " << vector.Capacity() << endl;
-	cout << "Font Element: " << vector.Front() << endl;
-	
-	cout << endl;
+	AssertedEqual(vector.At(0), 1);
+	AssertedEqual(vector.At(1), 5);
 
-	// Print all of the elements within the vector
-	for (int i = 0; i < vector.Size(); ++i)
-		cout << "Element " << i << ": " << vectorTemp[i] << endl;
+	vector.Append(33);
 
-	cout << endl;
+	AssertedEqual(vector.At(0), 1);
+	AssertedEqual(vector.At(1), 5);
+	AssertedEqual(vector.At(2), 33);
+	AssertedEqual<size_t>(vector.Capacity(), 4);
+	AssertedEqual<size_t>(vector.Size(), 3);
+	AssertedEqual(vector.Front(), 1);
+	AssertedEqual(vector.Back(), 33);
+	AssertedEqual(vector.Data(), &vector.At(0));
 
-	// Add 3 elements to the vector
-	vector.Append(12);
-	vector.Append(89);
-	vector.Append(14);
-
-	// Print the new size and capacity
-	cout << "Size after appending 3 elements to array: " << vector.Size() << endl;
-	cout << "Capacity after appending 3 elements to array: " << vector.Capacity() << endl;
-	
-	cout << endl;
-
-	// Print the added elements
-	cout << "Element 2: " << vector.At(2) << endl;
-	cout << "Element 3: " << vector.At(3) << endl;
-	cout << "Element 4: " << vector.Back() << endl;
-
-	cout << endl;
-
-	// Print all of the elements within the vector
-	cout << "All elements: ";
-	for (int i = 0; i < vector.Size(); ++i)
-	{
-		// Check and ensure that the element isn't the last
-		if (i < vector.Size() - 1)
-			cout << vector.At(i) << ", ";
-		else
-			// if it is, then print the last element and end the line
-			cout << vector.At(i) << endl;
-	}
-
-	cout << endl;
-
-	while (true) {}
+	// Open Activities
 
 	return 0;
 }
