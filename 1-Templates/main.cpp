@@ -5,6 +5,7 @@ using std::cout;
 using std::endl;
 
 /** Example Exercise **/
+
 // This should be in a header file
 template<typename T>
 T Add(T a, T b)
@@ -114,10 +115,15 @@ bool AssertedNotEqual(T x, T y)
 	abort();
 }
 
+
+/** Afternoon Example Exercise **/
+
+
 int main()
 {
+	
 	/** Example Exercise **/
-
+	
 	// Template arg deduced from arguments
 	int implInt = Add(5, 5);
 	float implFlt = Add(2.1f, 3.2f);
@@ -131,8 +137,9 @@ int main()
 	cout << explInt << endl;
 
 	cout << endl;
-	/** Closed Exercises **/
 
+	/** Closed Exercises **/
+	
 	// 1. Print Function
 	Print<int>(1);
 	Print<float>(1.2f);
@@ -173,9 +180,9 @@ int main()
 	Print(person);
 
 	cout << endl;
-
+	
 	/** Open Exercises **/
-
+	
 	// 1.) Swap
 	int swapA = 12;
 	int swapB = 64;
@@ -213,6 +220,7 @@ int main()
 	if (AssertedNotEqual<int>(3, 4)) // pass
 		cout << "The assertion that the variables are NOT equal passed!" << endl;
     //AssertedNotEqual<float>(6.2f, 6.2f); // fail
+	
 
 	while (true) {}
 
