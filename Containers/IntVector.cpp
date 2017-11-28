@@ -65,7 +65,12 @@ bool IntVector::Grow(size_t minSize)
 	return true;
 }
 
-const float IntVector::operator[](const int index) const
+const float &IntVector::operator[](size_t idx)
+{
+	return data[idx];
+}
+
+const float IntVector::operator[](const size_t index) const
 {
 	if (index >= size)
 		abort();
@@ -144,56 +149,44 @@ int IntVector::Count(int value)
 
 void IntVector::Insert(int value, int idx)
 {
-	// Temporary variable to hold the data array
-	int* temp;
+	assert(idx >= 0);
+	assert(idx <= size);
 
-	// Check to see if idx is greater than 0
-	if (idx < 0)
-		abort();
-	// Check to see if the array needs to grow
-	else if (size + 1 > capacity)
-		Grow(size + 1);
-	// Add to the size to accomodate the new element 
-	size++;
-	// Allocate a temporary array
-	temp = new int[capacity];
+	Append(value);
 
-	// Copy the old array into the temp array
-	memcpy(temp, data, sizeof(int) * size);
-
-	// Sort the data into the appropriate elements in the data array
-	for (int i = 0; i < size; ++i)
+	for (int i = size - 1; i >= idx; i--)
 	{
-		if (i < idx)
-			data[i] = temp[i];
-		else if (i == idx)
-			data[i] = value;
-		else
-			data[i] = temp[i - 1];
+		int temp = data[i];
+		data[i] = data[i - 1];
+		data[i - 1] = temp;
 	}
-
-	// Free up the memory from the temp array
-	delete[] temp;
 }
 
-void IntVector::Reserve(int elements)
+void IntVector::Reserve(size_t elements)
 {
 	if (elements >= capacity)
 	{
-		Grow(elements + 1);
+		int* newData = new int[elements];
+		memcpy(newData, data, sizeof(int) * size);
+
+		delete[] data;
+
+		data = newData;
+
+		capacity = elements;
 	}
 }
 
 void IntVector::Compact()
 {
-	int* newData = new int[size];
-	for (int i = 0; i < size; ++i)
+	if (capacity > size)
 	{
-		newData[i] = data[i];
+		int* newData = new int[size];
+		memcpy(newData, data, sizeof(int) * size);
+		capacity = size;
+		delete[] data;
+		data = newData;
 	}
-	capacity = size;
-	delete[] data;
-	data = newData;
 }
 
 void IntVector::PrintElements()
@@ -205,5 +198,12 @@ void IntVector::PrintElements()
 			std::cout << data[i] << ", ";
 		else
 			std::cout << data[i] << std::endl;
+	}
+
+	while (true)
+	{
+		int check = getchar();
+		if (getchar != nullptr)
+			break;
 	}
 }

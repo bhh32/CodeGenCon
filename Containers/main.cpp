@@ -67,8 +67,12 @@ int main()
 	
 	vector.Erase(0);
 	AssertedEqual(vector.Front(), 45);
-	vector.Insert(78, 2);
-	AssertedEqual(vector.At(2), 78);
+	vector.Append(89);
+	vector.Insert(78, 3);
+	AssertedEqual<size_t>(vector[2], 78);
+
+	vector.PrintElements();
+
 	vector.Clear();
 	vector.Reserve(10);
 	AssertedBool<true>(vector.Capacity() >= 10);

@@ -17,7 +17,8 @@ private:
 
 public:
 	
-	const float operator[](const int index) const;
+	const float &operator[](size_t idx);
+	const float operator[](const size_t index) const;
 
 	IntVector();
 	~IntVector();
@@ -59,7 +60,7 @@ public:
 	void Insert(int value, int idx);
 
 	// The vector resizes the underlying array to be able to store a given number of elements
-	void Reserve(int elements);
+	void Reserve(size_t elements);
 
 	// The vector resizes the underlying array to fit EXACTLY the number of elements that it currently contains
 	void Compact();
