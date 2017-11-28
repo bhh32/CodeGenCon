@@ -34,6 +34,8 @@ int main()
 	vector.Append(1);
 	vector.Append(5);
 
+	AssertedEqual<size_t>(vector.Capacity(), 2);
+
 	AssertedEqual(vector.At(0), 1);
 	AssertedEqual(vector.At(1), 5);
 
@@ -67,8 +69,12 @@ int main()
 	AssertedEqual(vector.Front(), 45);
 	vector.Insert(78, 2);
 	AssertedEqual(vector.At(2), 78);
+	vector.Clear();
 	vector.Reserve(10);
 	AssertedBool<true>(vector.Capacity() >= 10);
+	vector.Append(56);
+	vector.Append(90);
+	vector.Append(34);
 	vector.Compact();
 	AssertedEqual(vector.Capacity(), vector.Size());
 	

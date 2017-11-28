@@ -13,7 +13,7 @@ IntVector::IntVector()
 
 IntVector::~IntVector()
 {
-	delete[] data; // destructor is throwing error at the end of the program because of this delete operator
+	delete[] data;
 }
 
 int &IntVector::At(size_t idx)
@@ -129,8 +129,10 @@ void IntVector::Erase(int idx)
 
 int IntVector::Count(int value)
 {
+	// Create a counter
 	int counter = 0;
 
+	// Search the array elements for the value specified and count them
 	for (int i = 0; i < size; ++i)
 	{
 		if (data[i] == value)
@@ -148,14 +150,18 @@ void IntVector::Insert(int value, int idx)
 	// Check to see if idx is greater than 0
 	if (idx < 0)
 		abort();
-	// Check to see if the array doesn't need to grow
+	// Check to see if the array needs to grow
 	else if (size + 1 > capacity)
 		Grow(size + 1);
-	 
+	// Add to the size to accomodate the new element 
 	size++;
+	// Allocate a temporary array
 	temp = new int[capacity];
+
+	// Copy the old array into the temp array
 	memcpy(temp, data, sizeof(int) * size);
 
+	// Sort the data into the appropriate elements in the data array
 	for (int i = 0; i < size; ++i)
 	{
 		if (i < idx)
@@ -165,6 +171,8 @@ void IntVector::Insert(int value, int idx)
 		else
 			data[i] = temp[i - 1];
 	}
+
+	// Free up the memory from the temp array
 	delete[] temp;
 }
 
