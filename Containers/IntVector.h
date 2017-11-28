@@ -63,4 +63,7 @@ public:
 
 	// The vector resizes the underlying array to fit EXACTLY the number of elements that it currently contains
 	void Compact();
+
+	// Print All Elements
+	void PrintElements();
 };

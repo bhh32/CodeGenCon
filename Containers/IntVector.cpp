@@ -1,4 +1,5 @@
 #include "IntVector.h"
+#include <iostream>
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
@@ -12,7 +13,7 @@ IntVector::IntVector()
 
 IntVector::~IntVector()
 {
-	delete[] data;
+	//delete[] data; // destructor is throwing error at the end of the program because of this delete operator
 }
 
 int &IntVector::At(size_t idx)
@@ -104,9 +105,11 @@ int IntVector::Back() const
 
 void IntVector::Clear()
 {
+	capacity = 2;
 	int* newData = new int[capacity];
 	delete[] data;
 	data = newData;
+	size = 0;
 }
 
 void IntVector::Erase(int idx)
@@ -139,38 +142,35 @@ int IntVector::Count(int value)
 
 void IntVector::Insert(int value, int idx)
 {
-	int* temp = data;
+	// Temporary variable to hold the data array
+	int* temp;
 
+	// Check to see if idx is greater than 0
 	if (idx < 0)
 		abort();
-	else if (idx > size)
+	// Check to see if the array doesn't need to grow
+	else if (size + 1 > capacity)
 		Grow(size + 1);
-	else
+	 
+	size++;
+	temp = new int[capacity];
+	memcpy(temp, data, sizeof(int) * size);
+
+	for (int i = 0; i < size; ++i)
 	{
-		for (int i = 0; i < size; ++i)
-		{
-			if (i < idx)
-				data[i] = temp[i];
-			else if (i == idx)
-				data[i] = value;
-			else
-				data[i] = temp[i + 1];
-		}
+		if (i < idx)
+			data[i] = temp[i];
+		else if (i == idx)
+			data[i] = value;
+		else
+			data[i] = temp[i - 1];
 	}
+	delete[] temp;
 }
 
 void IntVector::Reserve(int elements)
 {
-	if (elements < size)
-	{
-		for (int i = elements + 1; i < size; ++i)
-		{
-			Erase(i);
-		}
-
-		capacity = sizeof(int) * size;
-	}
-	else if (elements >= size)
+	if (elements >= capacity)
 	{
 		Grow(elements + 1);
 	}
@@ -178,8 +178,23 @@ void IntVector::Reserve(int elements)
 
 void IntVector::Compact()
 {
-	int* temp = data;
 	int* newData = new int[size - 1];
-	delete[] data;
-	memcpy(data, newData, sizeof(int) * (size - 1));
+	for (int i = 0; i < size; ++i)
+	{
+		newData[i] = data[i];
+	}
+	capacity = size;
+	data = newData;
+}
+
+void IntVector::PrintElements()
+{
+	std::cout << "All Elements: ";
+	for (int i = 0; i < size; ++i)
+	{
+		if (i < size - 1)
+			std::cout << data[i] << ", ";
+		else
+			std::cout << data[i] << std::endl;
+	}
 }
