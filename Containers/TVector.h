@@ -51,7 +51,7 @@ public:
 
 	void Erase(int idx);
 
-	int Count(T value);
+	size_t Count(T value);
 
 	void Insert(T value, size_t idx);
 
@@ -81,16 +81,16 @@ TVector<T>::~TVector()
 template<typename T>
 const T& TVector<T>::operator[](size_t idx)
 {
+	assert(idx < size)
 	return data[idx];
 }
 
 template<typename T>
 const T TVector<T>::operator[](const size_t idx) const
 {
-	if (index >= size)
-		abort();
+	assert(idx < size)
 
-	return data[index];
+	return data[idx];
 }
 
 template<typename T>
@@ -172,28 +172,28 @@ bool TVector<T>::Empty() const
 template<typename T>
 T TVector<T>::Front() const
 {
+	assert < size > 0);
 	return data[0];
 }
 
 template<typename T>
 T TVector<T>::Back() const
 {
+	assert(size > 0);
 	return data[size - 1];
 }
 
 template<typename T>
 void TVector<T>::Clear()
 {
-	capacity = 2;
-	T* newData = new T[capacity];
-	delete[] data;
-	data = newData;
 	size = 0;
 }
 
 template<typename T>
 void TVector<T>::Erase(int idx)
 {
+	assert (size > 0);
+
 	T* temp = data;
 
 	for (int i = 0; i < size; ++i)
@@ -208,11 +208,11 @@ void TVector<T>::Erase(int idx)
 }
 
 template<typename T>
-int TVector<T>::Count(T value)
+size_t TVector<T>::Count(T value)
 {
-	int counter = 0;
+	size_t counter = 0;
 
-	for (int i = 0; i < size; ++i)
+	for (size_t i = 0; i < size; ++i)
 	{
 		if (data[i] == value)
 			counter++;
@@ -229,7 +229,7 @@ void TVector<T>::Insert(T value, size_t idx)
 
 	Append(value);
 
-	for (int i = size - 1; i >= idx; i--)
+	for (size_t i = size - 1; i >= idx; i--)
 	{
 		T temp = data[i];
 		data[i] = data[i - 1];
