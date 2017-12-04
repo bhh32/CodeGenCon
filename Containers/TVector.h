@@ -172,7 +172,7 @@ bool TVector<T>::Empty() const
 template<typename T>
 T TVector<T>::Front() const
 {
-	assert < size > 0);
+	assert (size > 0);
 	return data[0];
 }
 

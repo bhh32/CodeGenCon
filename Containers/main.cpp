@@ -1,5 +1,6 @@
 #include "IntVector.h"
 #include "TVector.h"
+#include "IntLinkedList.h"
 #include <iostream>
 
 using std::cout;
@@ -8,9 +9,8 @@ using std::endl;
 template<typename T>
 bool AssertedEqual(T x, T y)
 {
-	if (x == y)
+	assert(x == y);
 		return true;
-	abort();
 }
 
 template<bool T>
@@ -85,6 +85,7 @@ int main()
 	AssertedEqual(vector.Capacity(), vector.Size());
 	*/
 
+	/*
 	TVector<float>vector;
 
 	AssertedBool<true>(vector.Empty());
@@ -121,7 +122,7 @@ int main()
 	vector.Append(12.f);
 
 	AssertedEqual<size_t>(vector.Size(), 3);
-	AssertedEqual(vector.Count(12.f), 2);
+	AssertedEqual<size_t>(vector.Count(12.f), 2);
 
 	vector.Erase(0);
 	AssertedEqual<float>(vector.Front(), 45.f);
@@ -144,6 +145,44 @@ int main()
 	vector.Append(32.f);
 	vector.EraseRange(1, 3);
 	AssertedEqual<float>(vector.Size(), 2);
+	*/
+
+	IntLinkedList nums;
+
+	// Test the Empty function
+	AssertedBool<true>(nums.Empty());
+
+	// Test the Append Function
+	nums.Append(0);
+	// Ensure that the lists back is the same as the front since theres' only one element
+	AssertedEqual(nums.Back(), nums.Front());
+
+	// Append 3 more elements
+	nums.Append(1);
+	nums.Append(2);
+	nums.Append(3);
+
+	// Ensure the Empty function returns false since there are things in the list
+	AssertedBool<false>(nums.Empty());
+
+	// Ensure the Front and Back functions work
+	AssertedEqual(nums.Front(), 0);
+	AssertedEqual(nums.Back(), 3);
+
+	// Ensure the At function works
+	AssertedEqual(nums.At(2), 2);
+	AssertedEqual(nums.At(0), 0);
+
+	//nums.Clear();
+	//AssertedBool<true>(nums.Empty());
+
+	nums.Insert(12, 1);
+	nums.Insert(43, 3);
+	AssertedEqual(12, nums.At(1));
+	AssertedEqual(43, nums.At(3));
+
+	AssertedEqual(nums.At(4), 2);
+	AssertedEqual(nums.At(5), 3);
 
 	return 0;
 }
