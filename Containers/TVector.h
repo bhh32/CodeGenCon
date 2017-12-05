@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
+#include "Iterator.h"
 #include <iostream>
 
 template<typename T>
@@ -27,6 +28,16 @@ public:
 	TVector();
 
 	~TVector();
+
+	Iterator<TVector<T>> Begin()
+	{
+		return Iterator<TVector<T>>(*this, 0);
+	}
+
+	Iterator<TVector<T>> End()
+	{
+		return Iterator<TVector<T>>(*this, size);
+	}
 
 	T& At(size_t idx);
 

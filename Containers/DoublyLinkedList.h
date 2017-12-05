@@ -26,6 +26,7 @@ public:
 	size_t Count(T value);
 	void Insert(T value, size_t index);
 	T &Previous(size_t index) const;
+	void Erase(size_t index);
 
 private:
 	TDoublyLinkedListNode* head;
@@ -236,4 +237,21 @@ T &TDoublyLinkedList<T>::Previous(size_t index) const
 	TDoublyLinkedListNode* previousNode = currentNode->previous;
 
 	return previousNode->value;
+}
+
+template<typename T>
+void TDoublyLinkedList<T>::Erase(size_t index)
+{
+	/*assert(index <= size);
+
+	TLinkedListNode* currentNode = head;
+	size_t counter = 0;
+	while (currentNode->next != nullptr && counter != index)
+	{
+		currentNode = currentNode->next;
+		counter++;
+	}
+
+	currentNode->previous->next = */
+
 }

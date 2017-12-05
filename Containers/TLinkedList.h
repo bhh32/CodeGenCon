@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include "Iterator.h"
 
 template<typename T>
 class TLinkedList
@@ -15,6 +16,16 @@ public:
 	TLinkedList();
 	~TLinkedList();
 
+	Iterator<TLinkedList<T>> Begin()
+	{
+		return Iterator<TLinkedList<T>>(*this, 0);
+	}
+
+	Iterator<TLinkedList<T>> End()
+	{
+		return Iterator<TLinkedList<T>>(*this, size + 1);
+	}
+
 	void Append(T value);
 	T &At(size_t index);
 	size_t GetSize() const;
@@ -22,6 +33,7 @@ public:
 	T &Front() const;
 	T &Back() const;
 	void Clear();
+	void Erase(size_t index);
 	size_t Count(T value);
 	void Insert(T value, size_t index);
 
@@ -140,6 +152,36 @@ void TLinkedList<T>::Clear()
 		if (iter == nullptr)
 			head = nullptr;
 	}
+}
+
+template<typename T>
+void TLinkedList<T>::Erase(size_t index)
+{
+	// Ensure
+	assert(index <= size);
+
+	size_t counter = 0;
+
+	TLinkedListNode* currentNode = head;
+	TLinkedListNode* previousNode = head;
+
+	while (counter < index)
+	{
+		if (counter == index - 1)
+			previousNode = currentNode;
+
+		currentNode = currentNode->next;
+		counter++;
+	}
+
+	previousNode->next = currentNode->next;
+
+	if (index == 0)
+		head = currentNode->next;
+
+	delete currentNode;
+	
+	size--;
 }
 
 template<typename T>

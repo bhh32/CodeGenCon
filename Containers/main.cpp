@@ -3,6 +3,7 @@
 #include "IntLinkedList.h"
 #include "TLinkedList.h"
 #include "DoublyLinkedList.h"
+#include "Algorithms.h"
 #include <iostream>
 
 using std::cout;
@@ -18,10 +19,8 @@ bool AssertedEqual(T x, T y)
 template<bool T>
 bool AssertedBool(bool arg)
 {
-	if (arg == T)
+	assert(arg == T);
 		return true;
-
-	abort();
 }
 
 int main()
@@ -202,20 +201,27 @@ int main()
 	AssertedEqual(nums.Back(), nums.Front());
 
 	// Append 3 more elements
-	nums.Append(1);
-	nums.Append(2);
-	nums.Append(3);
+	nums.Append(1.f);
+	nums.Append(2.f);
+	nums.Append(3.f);
 
 	// Ensure the Empty function returns false since there are things in the list
 	AssertedBool<false>(nums.Empty());
 
 	// Ensure the Front and Back functions work
-	AssertedEqual<float>(nums.Front(), 0);
-	AssertedEqual<float>(nums.Back(), 3);
+	AssertedEqual<float>(nums.Front(), 0.f);
+	AssertedEqual<float>(nums.Back(), 3.f);
 
 	// Ensure the At function works
-	AssertedEqual<float>(nums.At(2), 2);
-	AssertedEqual<float>(nums.At(0), 0);
+	AssertedEqual<float>(nums.At(2), 2.f);
+	AssertedEqual<float>(nums.At(0), 0.f);
+
+	nums.Erase(2);
+
+	//used for debugging
+	cout << nums.At(2) << endl;
+	//system("pause");
+	AssertedEqual<float>(nums.At(2), 3.f);
 
 	// Ensure the Insert function works
 	nums.Insert(12, 1);
@@ -226,49 +232,89 @@ int main()
 	AssertedEqual<float>(nums.At(4), 2);
 	AssertedEqual<float>(nums.At(5), 3);
 
+	
+
+	AssertedEqual<size_t>(nums.GetSize(), 4);
+	
+
+	nums.Clear();
+	AssertedBool<true>(nums.Empty()); */
+
+/*
+	TDoublyLinkedList<float> nums;
+
+	// Test the Empty function
+	AssertedBool<true>(nums.Empty());
+
+	// Test the Append Function
+	nums.Append(0.f);
+	// Ensure that the lists back is the same as the front since theres' only one element
+	AssertedEqual(nums.Back(), nums.Front());
+
+	// Append 3 more elements
+	nums.Append(1.f);
+	nums.Append(2.f);
+	nums.Append(3.f);
+
+	// Ensure the Empty function returns false since there are things in the list
+	AssertedBool<false>(nums.Empty());
+
+	// Ensure the Front and Back functions work
+	AssertedEqual<float>(nums.Front(), 0.f);
+	AssertedEqual<float>(nums.Back(), 3.f);
+
+	// Ensure the At function works
+	AssertedEqual<float>(nums.At(2), 2.f);
+	AssertedEqual<float>(nums.At(0), 0.f);
+
+	// Ensure the Insert function works
+	nums.Insert(12.f, 1);
+	nums.Insert(43.f, 3);
+	AssertedEqual<float>(12.f, nums.At(1));
+	AssertedEqual<float>(43.f, nums.At(3));
+
+	AssertedEqual<float>(nums.At(4), 2.f);
+	AssertedEqual<float>(nums.At(5), 3.f);
+
+	AssertedEqual<float>(nums.Previous(5), 2.f);
+
+	//nums.Erase(3);
+
 	nums.Clear();
 	AssertedBool<true>(nums.Empty());
-*/
+	*/
 
-TDoublyLinkedList<float> nums;
+	
+TVector<int> nums;
+nums.Append(0);
+nums.Append(1);
 
-// Test the Empty function
-AssertedBool<true>(nums.Empty());
+auto begin = nums.Begin();
+auto end = nums.End();
+auto total = AddRange(begin, end);
+assert(total == 1);
 
-// Test the Append Function
-nums.Append(0.f);
-// Ensure that the lists back is the same as the front since theres' only one element
-AssertedEqual(nums.Back(), nums.Front());
+TLinkedList<float> linkedList;
+linkedList.Append(10.3f);
+linkedList.Append(12.f);
 
-// Append 3 more elements
-nums.Append(1.f);
-nums.Append(2.f);
-nums.Append(3.f);
+auto begin2 = linkedList.Begin();
+auto end2 = linkedList.End();
 
-// Ensure the Empty function returns false since there are things in the list
-AssertedBool<false>(nums.Empty());
+auto total2 = AddRange(begin2, end2);
 
-// Ensure the Front and Back functions work
-AssertedEqual<float>(nums.Front(), 0.f);
-AssertedEqual<float>(nums.Back(), 3.f);
+assert(total2 == 22.3f);
 
-// Ensure the At function works
-AssertedEqual<float>(nums.At(2), 2.f);
-AssertedEqual<float>(nums.At(0), 0.f);
+int arr[] = { 12, 34, 65 };
 
-// Ensure the Insert function works
-nums.Insert(12.f, 1);
-nums.Insert(43.f, 3);
-AssertedEqual<float>(12.f, nums.At(1));
-AssertedEqual<float>(43.f, nums.At(3));
+auto begin3 = arr;
+auto end3 = arr + 3;
 
-AssertedEqual<float>(nums.At(4), 2.f);
-AssertedEqual<float>(nums.At(5), 3.f);
+auto total3 = AddRange(begin3, end3);
 
-AssertedEqual<float>(nums.Previous(5), 2.f);
+assert(total3 == 111);
 
-nums.Clear();
-AssertedBool<true>(nums.Empty());
+system("pause");
 	
 	return 0;
 }
