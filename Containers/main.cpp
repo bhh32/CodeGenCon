@@ -1,6 +1,8 @@
 #include "IntVector.h"
 #include "TVector.h"
 #include "IntLinkedList.h"
+#include "TLinkedList.h"
+#include "DoublyLinkedList.h"
 #include <iostream>
 
 using std::cout;
@@ -147,6 +149,7 @@ int main()
 	AssertedEqual<float>(vector.Size(), 2);
 	*/
 
+    /*
 	IntLinkedList nums;
 
 	// Test the Empty function
@@ -173,9 +176,6 @@ int main()
 	AssertedEqual(nums.At(2), 2);
 	AssertedEqual(nums.At(0), 0);
 
-	//nums.Clear();
-	//AssertedBool<true>(nums.Empty());
-
 	nums.Insert(12, 1);
 	nums.Insert(43, 3);
 	AssertedEqual(12, nums.At(1));
@@ -184,5 +184,91 @@ int main()
 	AssertedEqual(nums.At(4), 2);
 	AssertedEqual(nums.At(5), 3);
 
+	nums.~IntLinkedList();
+
+	nums.Clear();
+	AssertedBool<true>(nums.Empty());
+	*/
+
+/*
+	TLinkedList<float> nums;
+
+	// Test the Empty function
+	AssertedBool<true>(nums.Empty());
+
+	// Test the Append Function
+	nums.Append(0);
+	// Ensure that the lists back is the same as the front since theres' only one element
+	AssertedEqual(nums.Back(), nums.Front());
+
+	// Append 3 more elements
+	nums.Append(1);
+	nums.Append(2);
+	nums.Append(3);
+
+	// Ensure the Empty function returns false since there are things in the list
+	AssertedBool<false>(nums.Empty());
+
+	// Ensure the Front and Back functions work
+	AssertedEqual<float>(nums.Front(), 0);
+	AssertedEqual<float>(nums.Back(), 3);
+
+	// Ensure the At function works
+	AssertedEqual<float>(nums.At(2), 2);
+	AssertedEqual<float>(nums.At(0), 0);
+
+	// Ensure the Insert function works
+	nums.Insert(12, 1);
+	nums.Insert(43, 3);
+	AssertedEqual<float>(12, nums.At(1));
+	AssertedEqual<float>(43, nums.At(3));
+
+	AssertedEqual<float>(nums.At(4), 2);
+	AssertedEqual<float>(nums.At(5), 3);
+
+	nums.Clear();
+	AssertedBool<true>(nums.Empty());
+*/
+
+TDoublyLinkedList<float> nums;
+
+// Test the Empty function
+AssertedBool<true>(nums.Empty());
+
+// Test the Append Function
+nums.Append(0);
+// Ensure that the lists back is the same as the front since theres' only one element
+AssertedEqual(nums.Back(), nums.Front());
+
+// Append 3 more elements
+nums.Append(1);
+nums.Append(2);
+nums.Append(3);
+
+// Ensure the Empty function returns false since there are things in the list
+AssertedBool<false>(nums.Empty());
+
+// Ensure the Front and Back functions work
+AssertedEqual<float>(nums.Front(), 0);
+AssertedEqual<float>(nums.Back(), 3);
+
+// Ensure the At function works
+AssertedEqual<float>(nums.At(2), 2);
+AssertedEqual<float>(nums.At(0), 0);
+
+// Ensure the Insert function works
+nums.Insert(12, 1);
+nums.Insert(43, 3);
+AssertedEqual<float>(12, nums.At(1));
+AssertedEqual<float>(43, nums.At(3));
+
+AssertedEqual<float>(nums.At(4), 2);
+AssertedEqual<float>(nums.At(5), 3);
+
+AssertedEqual<float>(nums.Previous(5), 2);
+
+nums.Clear();
+AssertedBool<true>(nums.Empty());
+	
 	return 0;
 }

@@ -99,6 +99,7 @@ void IntLinkedList::Clear()
 		}
 
 		head = nullptr;
+		tail = head;
 	}
 }
 
@@ -123,18 +124,18 @@ void IntLinkedList::Insert(int value, size_t index)
 
 	IntLinkedListNode* newNode = new IntLinkedListNode;
 	newNode->value = value;
+
 	IntLinkedListNode* currentNode = head;
 
 	IntLinkedListNode* previousNode = new IntLinkedListNode;
 
 	int counter = 0;
 
+	// Gets the the node that is currently at the index as well as the node before it
 	while (counter < index)
 	{
 		if (counter == index - 1)
-		{
 			previousNode = currentNode;
-		}
 
 		currentNode = currentNode->next;		
 
