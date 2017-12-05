@@ -10,6 +10,7 @@ public:
 	{
 		T value;
 		TDoublyLinkedListNode* next;
+		TDoublyLinkedListNode* previous;
 	};
 
 	TDoublyLinkedList();
@@ -21,15 +22,14 @@ public:
 	bool Empty() const;
 	T &Front() const;
 	T &Back() const;
-	T &Previous(size_t index);
 	void Clear();
 	size_t Count(T value);
 	void Insert(T value, size_t index);
-	
+	T &Previous(size_t index) const;
+
 private:
 	TDoublyLinkedListNode* head;
 	TDoublyLinkedListNode* tail;
-	TDoublyLinkedListNode* previous;
 	size_t size;
 };
 
@@ -59,6 +59,7 @@ void TDoublyLinkedList<T>::Append(T value)
 	newNode->value = value;
 	newNode->next = nullptr;
 
+
 	// If this is the first element being added to the list...
 	if (head == nullptr)
 	{
@@ -67,23 +68,25 @@ void TDoublyLinkedList<T>::Append(T value)
 
 		// ... and set the tail to the head
 		tail = head;
+
+		head->previous = nullptr;
 	}
 	// If this is not the first element being added...
 	else
 	{
 		// Create an iterator and set it to head...
 		TDoublyLinkedListNode* iter = head;
+		TDoublyLinkedListNode* temp = tail;
 
-		// ... and set the previous node to tail
-		previous = tail;
+		// Iterate through each element until the end has been reached
+		while (iter->next != nullptr)
+		{
+			iter = iter->next;
+		}
 
-		// Set the newNode as the tail
-		tail = newNode;
-
-		// Set the previous (old tail) next to the new tail
-		previous->next = tail;
-
-		// Increase the size
+		iter->next = newNode;
+		tail = iter->next;
+		tail->previous = temp;
 		size++;
 	}
 }
@@ -135,16 +138,6 @@ T &TDoublyLinkedList<T>::Back() const
 }
 
 template<typename T>
-T &TDoublyLinkedList<T>::Previous(size_t index)
-{
-	assert(index <= size);
-
-	previous->value = At(index - 1);
-
-	return previous->value;
-}
-
-template<typename T>
 void TDoublyLinkedList<T>::Clear()
 {
 	TDoublyLinkedListNode* iter = head;
@@ -161,10 +154,7 @@ void TDoublyLinkedList<T>::Clear()
 		}
 
 		if (iter == nullptr)
-		{
 			head = nullptr;
-			previous = nullptr;
-		}
 	}
 }
 
@@ -189,12 +179,15 @@ void TDoublyLinkedList<T>::Insert(T value, size_t index)
 {
 	assert(index <= size);
 
-	// Allocate the memory for the new node and set it's value to the specified value
+	// Allocate the memory for the new node and set its value to the specified value
 	TDoublyLinkedListNode* newNode = new TDoublyLinkedListNode;
 	newNode->value = value;
 
 	// Create and set the currentNode to head
 	TDoublyLinkedListNode* currentNode = head;
+
+	// Allocate memory for the previous node
+	TDoublyLinkedListNode* previousNode = new TDoublyLinkedListNode;
 
 	size_t counter = 0;
 
@@ -202,10 +195,10 @@ void TDoublyLinkedList<T>::Insert(T value, size_t index)
 	while (counter < index)
 	{
 		if (counter == index - 1)
-			previous = currentNode;
+			previousNode = currentNode;
 
 		currentNode = currentNode->next;
-
+		
 		counter++;
 	}
 
@@ -219,8 +212,28 @@ void TDoublyLinkedList<T>::Insert(T value, size_t index)
 	currentNode->next = temp;
 
 	// The pointer of the previous node is set to the new current node
-	previous->next = currentNode;
-
+	previousNode->next = currentNode;
+	currentNode->previous = previousNode;
 	// Increase the size
 	size++;
+}
+
+template<typename T>
+T &TDoublyLinkedList<T>::Previous(size_t index) const
+{
+	assert(index <= size);
+
+	size_t counter = 0;
+
+	TDoublyLinkedListNode* currentNode = head;
+
+	while (counter < index)
+	{
+		currentNode = currentNode->next;
+		counter++;
+	}
+
+	TDoublyLinkedListNode* previousNode = currentNode->previous;
+
+	return previousNode->value;
 }

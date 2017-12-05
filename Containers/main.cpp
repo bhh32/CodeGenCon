@@ -236,36 +236,36 @@ TDoublyLinkedList<float> nums;
 AssertedBool<true>(nums.Empty());
 
 // Test the Append Function
-nums.Append(0);
+nums.Append(0.f);
 // Ensure that the lists back is the same as the front since theres' only one element
 AssertedEqual(nums.Back(), nums.Front());
 
 // Append 3 more elements
-nums.Append(1);
-nums.Append(2);
-nums.Append(3);
+nums.Append(1.f);
+nums.Append(2.f);
+nums.Append(3.f);
 
 // Ensure the Empty function returns false since there are things in the list
 AssertedBool<false>(nums.Empty());
 
 // Ensure the Front and Back functions work
-AssertedEqual<float>(nums.Front(), 0);
-AssertedEqual<float>(nums.Back(), 3);
+AssertedEqual<float>(nums.Front(), 0.f);
+AssertedEqual<float>(nums.Back(), 3.f);
 
 // Ensure the At function works
-AssertedEqual<float>(nums.At(2), 2);
-AssertedEqual<float>(nums.At(0), 0);
+AssertedEqual<float>(nums.At(2), 2.f);
+AssertedEqual<float>(nums.At(0), 0.f);
 
 // Ensure the Insert function works
-nums.Insert(12, 1);
-nums.Insert(43, 3);
-AssertedEqual<float>(12, nums.At(1));
-AssertedEqual<float>(43, nums.At(3));
+nums.Insert(12.f, 1);
+nums.Insert(43.f, 3);
+AssertedEqual<float>(12.f, nums.At(1));
+AssertedEqual<float>(43.f, nums.At(3));
 
-AssertedEqual<float>(nums.At(4), 2);
-AssertedEqual<float>(nums.At(5), 3);
+AssertedEqual<float>(nums.At(4), 2.f);
+AssertedEqual<float>(nums.At(5), 3.f);
 
-AssertedEqual<float>(nums.Previous(5), 2);
+AssertedEqual<float>(nums.Previous(5), 2.f);
 
 nums.Clear();
 AssertedBool<true>(nums.Empty());
