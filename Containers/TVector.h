@@ -92,7 +92,7 @@ TVector<T>::~TVector()
 template<typename T>
 const T& TVector<T>::operator[](size_t idx)
 {
-	assert(idx < size)
+	assert(idx < size);
 	return data[idx];
 }
 

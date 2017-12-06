@@ -1,9 +1,11 @@
 #include "IntVector.h"
-#include "TVector.h"
+//#include "TVector.h"
 #include "IntLinkedList.h"
-#include "TLinkedList.h"
+//#include "TLinkedList.h"
 #include "DoublyLinkedList.h"
 #include "Algorithms.h"
+#include "Stack.h"
+#include "Queue.h"
 #include <iostream>
 
 using std::cout;
@@ -189,7 +191,7 @@ int main()
 	AssertedBool<true>(nums.Empty());
 	*/
 
-/*
+    /*
 	TLinkedList<float> nums;
 
 	// Test the Empty function
@@ -240,7 +242,7 @@ int main()
 	nums.Clear();
 	AssertedBool<true>(nums.Empty()); */
 
-/*
+    /*
 	TDoublyLinkedList<float> nums;
 
 	// Test the Empty function
@@ -284,37 +286,80 @@ int main()
 	AssertedBool<true>(nums.Empty());
 	*/
 
-	
-TVector<int> nums;
-nums.Append(0);
-nums.Append(1);
+	/*
+    TVector<int> nums;
+	nums.Append(0);
+	nums.Append(1);
 
-auto begin = nums.Begin();
-auto end = nums.End();
-auto total = AddRange(begin, end);
-assert(total == 1);
+	auto begin = nums.Begin();
+	auto end = nums.End();
+	auto total = AddRange(begin, end);
+	assert(total == 1);
 
-TLinkedList<float> linkedList;
-linkedList.Append(10.3f);
-linkedList.Append(12.f);
+	TLinkedList<float> linkedList;
+	linkedList.Append(10.3f);
+	linkedList.Append(12.f);
 
-auto begin2 = linkedList.Begin();
-auto end2 = linkedList.End();
+	auto begin2 = linkedList.Begin();
+	auto end2 = linkedList.End();
 
-auto total2 = AddRange(begin2, end2);
+	auto total2 = AddRange(begin2, end2);
 
-assert(total2 == 22.3f);
+	assert(total2 == 22.3f);
 
-int arr[] = { 12, 34, 65 };
+	int arr[] = { 12, 34, 65 };
 
-auto begin3 = arr;
-auto end3 = arr + 3;
+	auto begin3 = arr;
+	auto end3 = arr + 3;
 
-auto total3 = AddRange(begin3, end3);
+	auto total3 = AddRange(begin3, end3);
 
-assert(total3 == 111);
+	assert(total3 == 111);
+	*/
 
-system("pause");
+	// STACK TESTS
+Stack<int> stack;
+
+// Test Empty function
+AssertedBool<true>(stack.Empty());
+
+// Test Push Function
+stack.Push(0);
+stack.Push(1);
+stack.Push(2);
+
+// Test Push worked and Size function
+AssertedEqual((int)stack.Size(), 3);
+
+// Test Peek Function
+AssertedEqual(stack.Peek(), 2);
+
+// Test Pop function
+stack.Pop();
+stack.Pop();
+stack.Pop();
+AssertedBool<true>(stack.Empty());
+
+
+// QUEUE TESTS
+Queue<float> queue;
+
+// Test Empty function
+AssertedBool<true>(queue.Empty());
+
+// Test Push Function
+queue.Push(9.4f);
+queue.Push(12.2f);
+queue.Push(5.6f);
+
+// Test Peek Function
+AssertedEqual(queue.Peek(), 9.4f);
+
+// Test Pop Function
+queue.Pop();
+queue.Pop();
+queue.Pop();
+AssertedBool<true>(queue.Empty());
 	
 	return 0;
 }

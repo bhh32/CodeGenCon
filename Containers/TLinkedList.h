@@ -37,7 +37,7 @@ public:
 	size_t Count(T value);
 	void Insert(T value, size_t index);
 
-private:
+protected:
 	TLinkedListNode* head;
 	TLinkedListNode* tail;
 	size_t size;
@@ -243,3 +243,5 @@ void TLinkedList<T>::Insert(T value, size_t index)
 	// Increase the size
 	size++;
 }
+
+
