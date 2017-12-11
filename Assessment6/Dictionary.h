@@ -11,46 +11,48 @@ using std::string;
 using std::vector;
 
 template<typename T>
-class HashMap
+class Dictionary
 {
 public:
-	struct MapElement
+	struct DictionaryElement
 	{
 		T value;
 		string key;
-		MapElement* next;
+		DictionaryElement* next;
 	};
 
-	const T& operator[](string key);
-	const T operator[](const string key) const;
+	const T &operator[](string key);
+	const T operator[](string key) const;
+	bool operator==(const Dictionary<T> &rhs);
+	bool operator!=(const Dictionary<T> &rhs);
 
-	HashMap();
-	~HashMap();
+	Dictionary();
+	~Dictionary();
 
 	void Clear();
 	bool ContainsKey(string key);
-	/*bool Equals(HashMap map);*/
+	bool Equals(const Dictionary<T> &map);
 	T Get(string key);
 	bool Empty();
 	vector<string> Keys();
 	void Put(string key, T value);
 	void Remove(string key);
-	size_t Size();
+	size_t Size() const;
 	string ToString(string key);
 	vector<T> Values();
 
 private:
 	size_t size;
-	MapElement* head;
+	DictionaryElement* head;
 };
 
 template<typename T>
-const T &HashMap<T>::operator[](string key)
+const T &Dictionary<T>::operator[](string key)
 {
 	assert(ContainsKey(key));
 
 	// Get the beginning element
-	MapElement* currentElement = head;
+	DictionaryElement* currentElement = head;
 
 	// iterate through each key
 	while (currentElement->key != key)
@@ -66,12 +68,12 @@ const T &HashMap<T>::operator[](string key)
 }
 
 template<typename T>
-const T HashMap<T>::operator[](const string key) const
+const T Dictionary<T>::operator[](string key) const
 {
 	assert(ContainsKey(key));
 
 	// Get the beginning element
-	MapElement* currentElement = head;
+	DictionaryElement* currentElement = head;
 
 	// iterate through each key
 	while (currentElement->key != key)
@@ -87,36 +89,89 @@ const T HashMap<T>::operator[](const string key) const
 }
 
 template<typename T>
-HashMap<T>::HashMap() : head(nullptr), size(0)
+bool Dictionary<T>::operator==(const Dictionary<T> &rhs)
+{
+	if (this->Size() == rhs.Size())
+	{
+		int counter = 0;
+		DictionaryElement* lhsElement = head;
+		DictionaryElement* rhsElement = rhs.head;
+
+		while (counter < Size())
+		{
+			if (lhsElement->value == rhsElement->value)
+			{
+					lhsElement = lhsElement->next;
+					rhsElement = rhsElement->next;
+					counter++;				
+			}
+			else
+				return false;
+		}
+		return true;
+	}
+
+	return false;
+}
+
+template<typename T>
+bool Dictionary<T>::operator!=(const Dictionary<T> &rhs)
+{
+	if ((*this)->Size() != rhs.Size())
+	{
+		int counter = 0;
+		DictionaryElement* lhsElement = lhs.head;
+		DictionaryElement* rhsElement = rhs.head;
+
+		while (counter < lhs.Size())
+		{
+			if (lhsElement != rhsElement)
+			{
+				lhsElement = lhsElement->next;
+				rhsElement = rhsElement->next;
+
+				if (lhsElement->next == nullptr && rhsElement->next == nullptr)
+					return true;
+			}
+			else
+				return false;
+		}
+	}
+
+	return true;
+}
+
+template<typename T>
+Dictionary<T>::Dictionary() : head(nullptr), size(0)
 {}
 
 template<typename T>
-HashMap<T>::~HashMap()
+Dictionary<T>::~Dictionary()
 {
 	Clear();
 }
 
 template<typename T>
-void HashMap<T>::Clear()
+void Dictionary<T>::Clear()
 {
-	MapElement* iter = head;
+	DictionaryElement* iter = head;
 
 	while (iter != nullptr)
 	{
-		MapElement* next = iter->next;
+		DictionaryElement* next = iter->next;
 		delete iter;
 		iter = next;
 	}
 }
 
 template<typename T>
-bool HashMap<T>::ContainsKey(string key)
+bool Dictionary<T>::ContainsKey(string key)
 {
-	// Ensure there is at least one element within the hashmap
+	// Ensure there is at least one element within the Dictionary
 	assert(head != nullptr);
 
 	// Get the beginning element
-	MapElement* currentElement = head;
+	DictionaryElement* currentElement = head;
 
 	// iterate through each key
 	while (currentElement->key != key)
@@ -136,22 +191,32 @@ bool HashMap<T>::ContainsKey(string key)
 	return false;
 }
 
-//template<typename T>
-//bool HashMap<T>::Equals(HashMap map)
-//{
-//	return false;
-//}
-
 template<typename T>
-T HashMap<T>::Get(string key)
+bool Dictionary<T>::Equals(const Dictionary<T> &map)
 {
-	MapElement* currentElement = head;
-
-	return currentElement[key];
+	return *this == map ? true : false;
 }
 
 template<typename T>
-bool HashMap<T>::Empty()
+T Dictionary<T>::Get(string key)
+{
+	assert(ContainsKey(key) == true);
+
+	DictionaryElement* currentElement = head;
+
+	while (currentElement != nullptr && currentElement->key != key)
+	{
+		currentElement = currentElement->next;
+	}
+
+	return currentElement->value;
+	
+
+	/*return currentElement[key];*/
+}
+
+template<typename T>
+bool Dictionary<T>::Empty()
 {
 	if (head == nullptr)
 		return true;
@@ -160,11 +225,11 @@ bool HashMap<T>::Empty()
 }
 
 template<typename T>
-vector<string> HashMap<T>::Keys()
+vector<string> Dictionary<T>::Keys()
 {
 	vector<string> keyVec; // creates a vector to hold the keys
-	keyVec.resize(Size()); // Sets the size of the vector to the same size of the hashmap
-	MapElement* currentElement = head;
+	keyVec.resize(Size()); // Sets the size of the vector to the same size of the Dictionary
+	DictionaryElement* currentElement = head;
 	size_t index = 0; // Sets the index of the vector
 
 	while (currentElement != nullptr)
@@ -177,13 +242,13 @@ vector<string> HashMap<T>::Keys()
 }
 
 template<typename T>
-void HashMap<T>::Put(string key, T value)
+void Dictionary<T>::Put(string key, T value)
 {
 	// Ensures no key is a duplicate
 	if(head != nullptr)
 		assert(!ContainsKey(key));
 
-	MapElement* newElement = new MapElement;
+	DictionaryElement* newElement = new DictionaryElement;
 	newElement->key = key;
 	newElement->value = value;
 	newElement->next = nullptr;
@@ -195,7 +260,7 @@ void HashMap<T>::Put(string key, T value)
 	}
 	else
 	{
-		MapElement* iter = head;
+		DictionaryElement* iter = head;
 
 		while (iter->next != nullptr)
 		{
@@ -208,12 +273,12 @@ void HashMap<T>::Put(string key, T value)
 }
 
 template<typename T>
-void HashMap<T>::Remove(string key)
+void Dictionary<T>::Remove(string key)
 {
 	assert(ContainsKey(key));
 
-	MapElement* currentElement = head;
-	MapElement* previousElement = head;
+	DictionaryElement* currentElement = head;
+	DictionaryElement* previousElement = head;
 
 	while (currentElement->key != key)
 	{
@@ -235,17 +300,17 @@ void HashMap<T>::Remove(string key)
 }
 
 template<typename T>
-size_t HashMap<T>::Size()
+size_t Dictionary<T>::Size() const
 {
 	return size;
 }
 
 template<typename T>
-string HashMap<T>::ToString(string key)
+string Dictionary<T>::ToString(string key)
 {
 	assert(ContainsKey(key));
 	
-	MapElement* currentElement = head;
+	DictionaryElement* currentElement = head;
 
 	while (currentElement->key != key)
 	{
@@ -258,11 +323,11 @@ string HashMap<T>::ToString(string key)
 }
 
 template<typename T>
-vector<T> HashMap<T>::Values()
+vector<T> Dictionary<T>::Values()
 {
 	vector<T> valueVec; // creates a vector to hold the values
-	valueVec.resize(Size()); // Sets the size of the vector to the same size of the hashmap
-	MapElement* currentElement = head;
+	valueVec.resize(Size()); // Sets the size of the vector to the same size of the Dictionary
+	DictionaryElement* currentElement = head;
 	size_t index = 0; // Sets the index of the vector
 
 	while (currentElement != nullptr)

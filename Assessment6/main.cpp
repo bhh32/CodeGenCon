@@ -1,11 +1,11 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
-#include "HashMap.h"
+#include "Dictionary.h"
 
 int main()
 {
-	HashMap<float> intMap;
+	Dictionary<float> intMap;
 	
 	assert(intMap.Empty() == true);
 	intMap.Put("zero", 0.25f);
@@ -40,4 +40,11 @@ int main()
 	vector<float> mapValueVec = intMap.Values();
 	assert(mapValueVec[0] == 0.25f);
 	assert(mapValueVec[1] == 1.14f);
+
+	Dictionary<float> map2;
+	map2.Put("zero", 0.25f);
+	map2.Put("one", 1.14f);
+
+	assert(intMap.Equals(map2));
+
 }
