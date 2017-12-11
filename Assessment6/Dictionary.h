@@ -1,6 +1,6 @@
 #pragma once
 
-#define TOSTRING(key)) #key
+//#define TOSTRING(key)) #key
 
 #include <cassert>
 #include <string>
