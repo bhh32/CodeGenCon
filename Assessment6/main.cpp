@@ -2,12 +2,13 @@
 #include <cassert>
 #include <vector>
 #include "Dictionary.h"
+#include <map>
 
 int main()
 {
 	Dictionary<float> intMap;
-	
-	assert(intMap.Empty() == true);
+
+	assert(intMap.Empty());
 	intMap.Put("zero", 0.25f);
 	intMap.Put("one", 1.14f);
 	intMap.Put("two", 2.36f);
@@ -15,13 +16,13 @@ int main()
 	assert(intMap.ContainsKey("zero"));
 	assert(intMap.ContainsKey("one"));
 	assert(intMap.ContainsKey("two"));
-	assert(!intMap.ContainsKey("three")); // Makes sure returns false
+	//assert(!intMap.ContainsKey("three")); // Fails as expected
 
 	assert(intMap.Get("zero") == 0.25f);
 	assert(intMap.Get("one") == 1.14f);
 	assert(intMap.Get("two") == 2.36f);
 
-	vector<std::string> returnedVec = intMap.Keys();
+	vector<string> returnedVec = intMap.Keys();
 	assert(returnedVec[0] == "zero");
 	assert(returnedVec[1] == "one");
 	assert(returnedVec[2] == "two");
@@ -34,8 +35,6 @@ int main()
 	assert(intMap.Size() == 2);
 
 	string checker = intMap.ToString("zero");
-	std::cout << checker << std::endl;
-	system("pause");
 
 	vector<float> mapValueVec = intMap.Values();
 	assert(mapValueVec[0] == 0.25f);
@@ -45,6 +44,9 @@ int main()
 	map2.Put("zero", 0.25f);
 	map2.Put("one", 1.14f);
 
-	assert(intMap.Equals(map2));
-
+	assert(intMap.Equals(map2)); // Checks to ensure Equals() works
+	assert(intMap == map2); // Checks to ensure the == operator evaluates properly
+	//assert(!(intMap == map2)); // Fails as expected
+	assert(!(intMap != map2)); // Check to ensure the != operator evaluates to false
+	//assert(intMap != map2); // Fails as expected
 }

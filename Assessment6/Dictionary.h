@@ -1,7 +1,5 @@
 #pragma once
 
-//#define TOSTRING(key)) #key
-
 #include <cassert>
 #include <string>
 #include <vector>
@@ -21,8 +19,8 @@ public:
 		DictionaryElement* next;
 	};
 
-	const T &operator[](string key);
-	const T operator[](string key) const;
+	T &operator[](string &&key);
+	T &operator[](const string &key);
 	bool operator==(const Dictionary<T> &rhs);
 	bool operator!=(const Dictionary<T> &rhs);
 
@@ -30,7 +28,7 @@ public:
 	~Dictionary();
 
 	void Clear();
-	bool ContainsKey(string key);
+	bool ContainsKey( string key);
 	bool Equals(const Dictionary<T> &map);
 	T Get(string key);
 	bool Empty();
@@ -46,8 +44,9 @@ private:
 	DictionaryElement* head;
 };
 
+
 template<typename T>
-const T &Dictionary<T>::operator[](string key)
+T &Dictionary<T>::operator[](string &&key)
 {
 	assert(ContainsKey(key));
 
@@ -67,8 +66,9 @@ const T &Dictionary<T>::operator[](string key)
 	return currentElement->value;
 }
 
+
 template<typename T>
-const T Dictionary<T>::operator[](string key) const
+T &Dictionary<T>::operator[](const string &key)
 {
 	assert(ContainsKey(key));
 
@@ -91,7 +91,7 @@ const T Dictionary<T>::operator[](string key) const
 template<typename T>
 bool Dictionary<T>::operator==(const Dictionary<T> &rhs)
 {
-	if (this->Size() == rhs.Size())
+	if (this->size == rhs.size)
 	{
 		int counter = 0;
 		DictionaryElement* lhsElement = head;
@@ -117,25 +117,26 @@ bool Dictionary<T>::operator==(const Dictionary<T> &rhs)
 template<typename T>
 bool Dictionary<T>::operator!=(const Dictionary<T> &rhs)
 {
-	if ((*this)->Size() != rhs.Size())
+	if (this->size == rhs.size)
 	{
 		int counter = 0;
-		DictionaryElement* lhsElement = lhs.head;
+		DictionaryElement* lhsElement = this->head;
 		DictionaryElement* rhsElement = rhs.head;
 
-		while (counter < lhs.Size())
+		while (counter < size)
 		{
-			if (lhsElement != rhsElement)
+			if (lhsElement->value != rhsElement->value)
+				return true;
+			else
 			{
 				lhsElement = lhsElement->next;
 				rhsElement = rhsElement->next;
-
-				if (lhsElement->next == nullptr && rhsElement->next == nullptr)
-					return true;
+				counter++;
+				
 			}
-			else
-				return false;
 		}
+
+		return false;
 	}
 
 	return true;
@@ -202,17 +203,7 @@ T Dictionary<T>::Get(string key)
 {
 	assert(ContainsKey(key) == true);
 
-	DictionaryElement* currentElement = head;
-
-	while (currentElement != nullptr && currentElement->key != key)
-	{
-		currentElement = currentElement->next;
-	}
-
-	return currentElement->value;
-	
-
-	/*return currentElement[key];*/
+	return (*this)[key];
 }
 
 template<typename T>
@@ -306,7 +297,7 @@ size_t Dictionary<T>::Size() const
 }
 
 template<typename T>
-string Dictionary<T>::ToString(string key)
+ string Dictionary<T>::ToString(string key)
 {
 	assert(ContainsKey(key));
 	
@@ -317,7 +308,7 @@ string Dictionary<T>::ToString(string key)
 		currentElement = currentElement->next;
 	}
 	
-	string converter = std::to_string(currentElement->value);
+	 string converter = std::to_string(currentElement->value);
 
 	return converter;
 }
