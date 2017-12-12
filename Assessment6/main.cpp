@@ -21,6 +21,9 @@ int main()
 	assert(intMap.Get("zero") == 0.25f);
 	assert(intMap.Get("one") == 1.14f);
 	assert(intMap.Get("two") == 2.36f);
+	assert(intMap["zero"] == 0.25f);
+	assert(intMap["one"] == 1.14f);
+	assert(intMap["two"] == 2.36f);
 
 	vector<string> returnedVec = intMap.Keys();
 	assert(returnedVec[0] == "zero");
@@ -49,4 +52,6 @@ int main()
 	//assert(!(intMap == map2)); // Fails as expected
 	assert(!(intMap != map2)); // Check to ensure the != operator evaluates to false
 	//assert(intMap != map2); // Fails as expected
+
+	return 0;
 }
