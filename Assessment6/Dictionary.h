@@ -308,6 +308,7 @@ template<typename T>
 		currentElement = currentElement->next;
 	}
 	
+	// Converts the value to a string
 	 string converter = std::to_string(currentElement->value);
 
 	return converter;

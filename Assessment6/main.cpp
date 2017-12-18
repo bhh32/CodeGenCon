@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 #include <cassert>
 #include <vector>
 #include "Dictionary.h"
@@ -38,6 +39,7 @@ int main()
 	assert(intMap.Size() == 2);
 
 	string checker = intMap.ToString("zero");
+	std::cout << checker << std::endl;
 
 	vector<float> mapValueVec = intMap.Values();
 	assert(mapValueVec[0] == 0.25f);
@@ -52,6 +54,13 @@ int main()
 	//assert(!(intMap == map2)); // Fails as expected
 	assert(!(intMap != map2)); // Check to ensure the != operator evaluates to false
 	//assert(intMap != map2); // Fails as expected
+
+	while (true)
+	{
+		char keyUp = _getch();
+		if (keyUp)
+			break;
+	}
 
 	return 0;
 }
